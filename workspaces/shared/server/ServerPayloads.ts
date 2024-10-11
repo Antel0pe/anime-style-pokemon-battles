@@ -22,7 +22,7 @@ export type ServerPayloads = {
   };
 
   [ServerEvents.SubmittedChatMessage]: {
-    messages: ChatMessage[];
+    messages: ChatMessage;
   };
 
   [ServerEvents.ChatHistory]: {

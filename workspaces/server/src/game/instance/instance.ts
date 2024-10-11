@@ -8,6 +8,7 @@ import { SECOND } from '@app/game/constants';
 import { Socket } from 'socket.io';
 import { ServerPayloads } from '@shared/server/ServerPayloads';
 import { ServerEvents } from '@shared/server/ServerEvents';
+import { ChatMessage } from '@shared/server/types';
 
 export class Instance
 {
@@ -26,6 +27,8 @@ export class Instance
   public delayBetweenRounds: number = 2;
 
   private cardsRevealedForCurrentRound: Record<number, Socket['id']> = {};
+
+  public chatHistory: ChatMessage[] = [];
 
   constructor(
     private readonly lobby: Lobby,

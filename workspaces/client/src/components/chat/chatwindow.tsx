@@ -24,6 +24,8 @@ export default function ChatWindow({ chat }: Props) {
   const username = sm.getSocketId()!;
 
   useEffect(() => {
+    console.log('use eff getting ' + JSON.stringify(chat))
+    if(!chat) return;
     let parsedMessages: ChatMessage[] = chat.map((m) =>{
       return {
         message: m["chatMessage"].message,
@@ -40,12 +42,12 @@ export default function ChatWindow({ chat }: Props) {
     if (input.trim() === '') return;
 
     const chatMessage: ChatMessage = {
-      message: input.trim(),
-      username: username,
-      timestamp: new Date().toISOString()
+    message: input.trim(),
+    username: username,
+    timestamp: new Date().toISOString()
     };
 
-    console.log('emitting ' + JSON.stringify(chatMessage))
+    console.log('sending to serv ' + JSON.stringify(chatMessage))
     sm.emit({
       event: ClientEvents.ChatMessage,
       data: { chatMessage },

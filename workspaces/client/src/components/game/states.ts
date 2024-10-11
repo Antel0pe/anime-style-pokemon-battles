@@ -7,8 +7,8 @@ export const CurrentLobbyState = atom<ServerPayloads[ServerEvents.LobbyState] | 
   default: null,
 });
 
-export const CurrentChatMessages = atom<ServerPayloads[ServerEvents.SubmittedChatMessage] | null>({
+export const CurrentChatMessages = atom<ServerPayloads[ServerEvents.ChatHistory] | null>({
   key: 'CurrentChatMessages',
-  default: { messages: []},
+  default: null,
 });
 

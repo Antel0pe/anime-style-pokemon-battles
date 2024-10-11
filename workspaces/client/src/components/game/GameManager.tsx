@@ -38,18 +38,19 @@ export default function GameManager() {
       });
     };
 
-    const onNewChatMessage: Listener<ServerPayloads[ServerEvents.SubmittedChatMessage]> = async ( data ) => {
+    const getChatHistory: Listener<ServerPayloads[ServerEvents.ChatHistory]> = async ( data ) => {
+      console.log('client listener getting ' + JSON.stringify(data));
       setChatMessages(data);
     };
 
     sm.registerListener(ServerEvents.LobbyState, onLobbyState);
     sm.registerListener(ServerEvents.GameMessage, onGameMessage);
-    sm.registerListener(ServerEvents.SubmittedChatMessage, onNewChatMessage);
+    sm.registerListener(ServerEvents.ChatHistory, getChatHistory);
 
     return () => {
       sm.removeListener(ServerEvents.LobbyState, onLobbyState);
       sm.removeListener(ServerEvents.GameMessage, onGameMessage);
-      sm.removeListener(ServerEvents.SubmittedChatMessage, onNewChatMessage);
+      sm.removeListener(ServerEvents.ChatHistory, getChatHistory);
     };
   }, []);
 

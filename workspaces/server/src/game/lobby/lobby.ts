@@ -4,6 +4,7 @@ import { ServerEvents } from '@shared/server/ServerEvents';
 import { AuthenticatedSocket } from '@app/game/types';
 import { Instance } from '@app/game/instance/instance';
 import { ServerPayloads } from '@shared/server/ServerPayloads';
+import { ChatMessage } from '@shared/server/types';
 
 export class Lobby
 {
@@ -74,5 +75,15 @@ export class Lobby
   public dispatchToLobby<T>(event: ServerEvents, payload: T): void
   {
     this.server.to(this.id).emit(event, payload);
+  }
+
+  public getChatHistory(): ChatMessage[]
+  {
+    return this.instance.chatHistory;
+  }
+
+  public addMessageToChatHistory(msg: ChatMessage): void
+  {
+    this.instance.chatHistory.push(msg);
   }
 }

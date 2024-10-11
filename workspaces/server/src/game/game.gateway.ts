@@ -96,15 +96,23 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     client.data.lobby.instance.revealCard(data.cardIndex, client);
   }
   @SubscribeMessage(ClientEvents.ChatMessage)
-  onSubmittedChatMessage(client: AuthenticatedSocket, msg: ChatMessage): WsResponse<ServerPayloads[ServerEvents.SubmittedChatMessage]>
+  onSubmittedChatMessage(client: AuthenticatedSocket, msg: any): void
   {
+    console.log('receiving from client ' + JSON.stringify(msg))
     client.data.messages.push(msg);
+    client.data.lobby?.addMessageToChatHistory(msg);
 
-    return {
-      event: ServerEvents.SubmittedChatMessage,
-      data: {
-        messages: client.data.messages
-      },
-    };
+
+    client.data.lobby?.dispatchToLobby(ServerEvents.ChatHistory, {
+      messages: client.data.lobby.getChatHistory()
+    });
+
+
+    // return {
+    //   event: ServerEvents.SubmittedChatMessage,
+    //   data: {
+    //     messages: client.data.messages
+    //   },
+    // };
   }
 }

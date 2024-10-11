@@ -126,7 +126,7 @@ export default function Game() {
       </div>
 
       <div className='pl-20'>
-        <ChatWindow chat={currentChatMessages.messages} />
+        <ChatWindow chat={ currentChatMessages ? currentChatMessages.messages : []} />
       </div>
     </div>
   );
