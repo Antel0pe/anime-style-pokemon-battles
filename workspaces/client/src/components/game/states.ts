@@ -6,3 +6,9 @@ export const CurrentLobbyState = atom<ServerPayloads[ServerEvents.LobbyState] | 
   key: 'CurrentLobbyState',
   default: null,
 });
+
+export const CurrentChatMessages = atom<ServerPayloads[ServerEvents.SubmittedChatMessage] | null>({
+  key: 'CurrentChatMessages',
+  default: { messages: []},
+});
+

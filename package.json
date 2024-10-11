@@ -14,5 +14,6 @@
     "start:dev:server": "yarn workspace @memory-cards/server start:dev",
     "start:prod:client": "yarn workspace @memory-cards/client start:prod",
     "start:prod:server": "yarn workspace @memory-cards/server start:prod"
-  }
+  },
+  "packageManager": "yarn@4.5.0"
 }

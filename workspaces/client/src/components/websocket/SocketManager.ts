@@ -63,7 +63,6 @@ export default class SocketManager
   registerListener<T>(event: ServerEvents, listener: Listener<T>): this
   {
     this.socket.on(event, listener);
-
     return this;
   }
 

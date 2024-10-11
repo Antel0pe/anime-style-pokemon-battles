@@ -1,5 +1,6 @@
 import { ServerEvents } from './ServerEvents';
 import { CardStateDefinition } from '../common/types';
+import { ChatMessage } from './types';
 
 export type ServerPayloads = {
   [ServerEvents.LobbyState]: {
@@ -18,5 +19,13 @@ export type ServerPayloads = {
   [ServerEvents.GameMessage]: {
     message: string;
     color?: 'green' | 'red' | 'blue' | 'orange';
+  };
+
+  [ServerEvents.SubmittedChatMessage]: {
+    messages: ChatMessage[];
+  };
+
+  [ServerEvents.ChatHistory]: {
+    messages: ChatMessage[];
   };
 };

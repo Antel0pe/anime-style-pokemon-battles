@@ -4,7 +4,7 @@ import { Listener } from '@components/websocket/types';
 import { ServerEvents } from '@memory-cards/shared/server/ServerEvents';
 import { ServerPayloads } from '@memory-cards/shared/server/ServerPayloads';
 import { useRecoilState } from 'recoil';
-import { CurrentLobbyState } from '@components/game/states';
+import { CurrentChatMessages, CurrentLobbyState } from '@components/game/states';
 import Introduction from '@components/game/Introduction';
 import Game from '@components/game/Game';
 import { useRouter } from 'next/router';
@@ -14,6 +14,7 @@ export default function GameManager() {
   const router = useRouter();
   const {sm} = useSocketManager();
   const [lobbyState, setLobbyState] = useRecoilState(CurrentLobbyState);
+  const [chatMessages, setChatMessages] = useRecoilState(CurrentChatMessages);
 
   useEffect(() => {
     sm.connect();
@@ -37,12 +38,18 @@ export default function GameManager() {
       });
     };
 
+    const onNewChatMessage: Listener<ServerPayloads[ServerEvents.SubmittedChatMessage]> = async ( data ) => {
+      setChatMessages(data);
+    };
+
     sm.registerListener(ServerEvents.LobbyState, onLobbyState);
     sm.registerListener(ServerEvents.GameMessage, onGameMessage);
+    sm.registerListener(ServerEvents.SubmittedChatMessage, onNewChatMessage);
 
     return () => {
       sm.removeListener(ServerEvents.LobbyState, onLobbyState);
       sm.removeListener(ServerEvents.GameMessage, onGameMessage);
+      sm.removeListener(ServerEvents.SubmittedChatMessage, onNewChatMessage);
     };
   }, []);
 

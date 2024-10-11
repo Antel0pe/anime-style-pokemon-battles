@@ -18,6 +18,7 @@ export class LobbyManager
   public initializeSocket(client: AuthenticatedSocket): void
   {
     client.data.lobby = null;
+    client.data.messages = [];
   }
 
   public terminateSocket(client: AuthenticatedSocket): void

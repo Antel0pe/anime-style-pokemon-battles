@@ -10,4 +10,7 @@ export enum ClientEvents
 
   // Game
   GameRevealCard = 'client.game.reveal_card',
+
+  // Messages
+  ChatMessage = 'client.chat.message'
 }

@@ -17,6 +17,7 @@ import { SocketExceptions } from '@shared/server/SocketExceptions';
 import { ServerPayloads } from '@shared/server/ServerPayloads';
 import { LobbyCreateDto, LobbyJoinDto, RevealCardDto } from '@app/game/dtos';
 import { WsValidationPipe } from '@app/websocket/ws.validation-pipe';
+import { ChatMessage } from '@shared/server/types';
 
 @UsePipes(new WsValidationPipe())
 @WebSocketGateway()
@@ -93,5 +94,17 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     }
 
     client.data.lobby.instance.revealCard(data.cardIndex, client);
+  }
+  @SubscribeMessage(ClientEvents.ChatMessage)
+  onSubmittedChatMessage(client: AuthenticatedSocket, msg: ChatMessage): WsResponse<ServerPayloads[ServerEvents.SubmittedChatMessage]>
+  {
+    client.data.messages.push(msg);
+
+    return {
+      event: ServerEvents.SubmittedChatMessage,
+      data: {
+        messages: client.data.messages
+      },
+    };
   }
 }

@@ -1,16 +1,18 @@
 import { ClientEvents } from '@memory-cards/shared/client/ClientEvents';
 import useSocketManager from '@hooks/useSocketManager';
 import { useRecoilValue } from 'recoil';
-import { CurrentLobbyState } from '@components/game/states';
+import { CurrentChatMessages, CurrentLobbyState } from '@components/game/states';
 import Card from '@components/game/Card';
 import { Badge, LoadingOverlay, Overlay } from '@mantine/core';
 import { MantineColor } from '@mantine/styles';
 import { showNotification } from '@mantine/notifications';
 import { emitEvent } from '@utils/analytics';
+import ChatWindow from '@components/chat/chatwindow';
 
 export default function Game() {
   const {sm} = useSocketManager();
   const currentLobbyState = useRecoilValue(CurrentLobbyState)!;
+  const currentChatMessages = useRecoilValue(CurrentChatMessages)!;
   const clientId = sm.getSocketId()!;
   let clientScore = 0;
   let opponentScore = 0;
@@ -70,7 +72,8 @@ export default function Game() {
   };
 
   return (
-    <div>
+    <div className='flex flex-row'>
+      <div>
       <div className="flex justify-between items-center my-5">
         <Badge size="xl">Your score: {clientScore}</Badge>
         <Badge variant="outline">
@@ -120,6 +123,11 @@ export default function Game() {
           <button className="btn" onClick={copyLobbyLink}>Copy lobby link</button>
         </div>
       )}
+      </div>
+
+      <div className='pl-20'>
+        <ChatWindow chat={currentChatMessages.messages} />
+      </div>
     </div>
   );
 }
